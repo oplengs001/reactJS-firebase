@@ -1,0 +1,75 @@
+body 		 { padding-bottom:50px; background:#EFF4F7 }
+.page-header h1{
+font-family: 'Londrina Solid', cursive;
+    color: #474545;
+}
+
+
+ p{
+    font-family: 'Muli', sans-serif;
+    color: #474545;
+  }
+
+
+ 
+.tableDesign {
+    width: 65% !important;
+    margin: 0 auto !important;
+
+}
+   
+.tableDesign span {
+    margin-left: 20%;
+
+}
+  .tableDesign spans {
+    margin-left: 15%;
+
+}
+  .tableDesign spanss {
+    margin-left: 23%;
+
+}
+.checkBox label {
+  font-weight: normal !important;
+  font-family: 'Muli', sans-serif !important;
+  color: #474545 !important;
+
+}
+ .Pending {
+    border: 2px solid #FDD835 !important;
+    background-color: #FFF176 !important;
+    
+  }
+ .Available {
+    border: 2px solid #1E88E5 !important;
+    background-color: #90CAF9 !important;
+  }
+  .Booked {
+    border: 2px solid #E91E63 !important;
+    background-color: #F48FB1 !important;
+  }
+
+
+
+  .trDesign th{
+  font-size: 20px !important;
+     font-family: 'Muli', sans-serif !important;
+    color: #474545;
+
+
+  }
+    .Available td{
+     font-size: 18px !important;
+     font-family: 'Muli', sans-serif !important;
+    color: #474545;
+  }  .Booked td{   
+     font-size: 18px !important;
+     font-family: 'Muli', sans-serif !important;
+    color: #474545;
+  }  .Pending td{     
+        font-family: 'Muli', sans-serif !important;
+    color: #474545;
+     font-size: 18px !important;
+  }
+
