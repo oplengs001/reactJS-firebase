@@ -1,30 +1,35 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+
+
+
 class Acceptor extends Component {
         constructor(props){
         super(props)
-            this.state = {days: []}               
-            this.handleAdminChange = this.handleAdminChange.bind(this);
+            this.state = {days: [] 
+
+            }               
             this.pushToFirebase = this.pushToFirebase.bind(this);
             
-  }
-          
+  }    
 componentDidMount(){
-
-        const listRef = firebase.database().ref('presence/');
+        // const listRef = firebase.database().ref('presence/');
         this.firebaseRef = firebase.database().ref('days');
-        
-        this.firebaseRef.on('value', function(dataSnapshot) {
+        this.firebaseRef.on('value', dataSnapshot =>{
         var items = [];
-        dataSnapshot.forEach(function(childSnapshot) {
+        dataSnapshot.forEach( childSnapshot => {
         var item = childSnapshot.val();
         item['.key'] = childSnapshot.key;
         items.push(item);
-        }.bind(this));
+        })
               this.setState({
               days: items
               });
-        }.bind(this));
+        })
   
 }
 pushToFirebase(){
@@ -127,30 +132,37 @@ componentWillUnmount() {
     this.firebaseRef.off();
 };
 
-handleAdminChange(event){
-      const target = event.target;
-      const name = target.name;
-      const arr = name.split(",");
-      var dayname = arr[0].toLowerCase() ,day = arr[1], slot = arr[2];
-      console.log(dayname+ " " + day + " " + slot)
-      var status =   this.state.days[day].slots[slot].booked
-      var nbookedVal;
-      nbookedVal = status == true ? false : true;
-      this.firebaseRef.child(dayname).child('slots').child(slot).update({ booked: 'Pending' });
-}
 Avalability(value){
   switch(value) {
     case true:
         return "BOOKED";
-        break;
     case false:
         return "Available";
-        break;
     case "Pending":
         return "Pending";
-        break;
     default:    
 }
+}
+ButtonAvailability(value){
+  switch(value) {
+    case true:
+        return true;
+    case false:
+        return true;
+    case "Pending":
+        return false;
+    default:    
+  }
+}
+decide(value,dayname,slot){
+//  value == 0 ? reject : approve;
+value === "approve"?
+this.firebaseRef.child(dayname.toLowerCase()).child('slots').child(slot).update({ booked: true })
+:
+this.firebaseRef.child(dayname.toLowerCase()).child('slots').child(slot).update({ booked: false });
+
+
+
 }
 
   render(){ 
@@ -162,20 +174,38 @@ const days =     this.state.days.map((days, index) =>
 const times =    this.state.days.map((days, index) =>
                  Object.keys(days.slots).map((slots, id) => {
                 return(
-                <div>                 
-                <input type="checkbox" name={[days.name,index,slots]}  checked ={days.slots[slots].booked} onChange={this.handleAdminChange} ></input>
-                <label><span>{this.Avalability(days.slots[slots].booked)} {days.slots[slots].time}</span></label>
-                </div>
+                  
+                <div>
+                <label>
+                      <span>
+                      {this.Avalability(days.slots[slots].booked)}
+                      {days.slots[slots].time}
+                      </span>
+                </label>  
+                       <IconMenu id = {id}
+                        iconButtonElement={
+                        <IconButton>
+                        <RaisedButton onTouchTap={this.handleOpenMenu} 
+                        label={this.Avalability(days.slots[slots].booked)}
+                        disabled = {this.ButtonAvailability(days.slots[slots].booked)}
+                         /> {days.slots[slots].time} </IconButton>}
+                        open={this.onClick}
+                        onRequestChange={this.handleOnRequestChange}
+                      >
+                      <MenuItem value="1" primaryText="Reject" onClick = {() => this.decide("reject",days.name,slots)} />
+                      <MenuItem value="2" primaryText="Approve" onClick = {() => this.decide("approve",days.name,slots)}/>  
+                      </IconMenu>
+                </div>              
                  )
                  }))
             
      return(
    <div>{days}
-            <div>
+            <div>     
                <label>{times}</label>
                {button}
             </div>
-       </div> 
+   </div> 
    
   
   );

@@ -18,30 +18,30 @@ componentDidMount(){
 
         const listRef = firebase.database().ref('presence/');
 
-        this.state.userRef = listRef.push();
-        const presenceRef = firebase.database().ref('.info/connected');
-        presenceRef.on("value", snap =>
-         {
-            if (snap.val()) {
-            this.state.userRef.set(true);
-            this.state.userRef.onDisconnect().remove();   // Remove ourselves when we disconnect.
-        }});
+                this.state.userRef = listRef.push();
+                const presenceRef = firebase.database().ref('.info/connected');
+                presenceRef.on("value", snap =>
+                {
+                    if (snap.val()) {
+                    this.state.userRef.set(true);
+                    this.state.userRef.onDisconnect().remove();   // Remove ourselves when we disconnect.
+                }});
 
-        this.firebaseRef = firebase.database().ref('days');
-        this.firebaseRef.on('value', function(dataSnapshot)
-        {
-            var items = [];
-            dataSnapshot.forEach(function(childSnapshot)
-            {
-              var item = childSnapshot.val();
-              item['.key'] = childSnapshot.key;
-              items.push(item);
-            }.bind(this));
-        this.setState({
-          days: items
-        });
-         }.bind(this));
-        }
+                    this.firebaseRef = firebase.database().ref('days');
+                    this.firebaseRef.on('value', dataSnapshot=>
+                {
+                    var items = [];
+                    dataSnapshot.forEach(childSnapshot =>
+                {
+                    var item = childSnapshot.val();
+                    item['.key'] = childSnapshot.key;
+                    items.push(item);
+                })
+                        this.setState({
+                        days: items
+                        });
+                })
+                }
 
 componentWillUnmount() {
         this.firebaseRef.off();
@@ -59,13 +59,10 @@ Avalability(value){
   switch(value) {
     case true:
         return "BOOKED";
-        break;
     case false:
         return "Available";
-        break;
     case "Pending":
         return "Pending";
-        break;
     default:    
 }
 }
