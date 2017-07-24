@@ -1,2 +1,8 @@
-# reactJS-firebase
-An Exercise in ReactJS with firebase 
+# Updated User Interface
+
+##Utilizing Material-UI
+
+## New
+* User Experience
+* User Interface
+* Usage of SnackBar
